@@ -32,13 +32,7 @@ private:
 
   SDL_Texture* m_pTexture;
 
-  //원본 사각형
-  //SDL_Rect m_sourceRectangle;
-
-  //대상 사각형
-  //SDL_Rect m_destinationRectangle;
-
-  TextureManager m_textureManager;
+  //TextureManager m_textureManager;
   int m_currentFrame;
 };
 

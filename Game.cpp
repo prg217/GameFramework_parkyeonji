@@ -16,7 +16,12 @@ bool Game::init(const char* title, int xpos, int ypos, int height, int width, in
       {
         SDL_SetRenderDrawColor(m_pRenderer, 255, 100, 100, 255); //붉은색 배경 눈이 아파 조정
 
-        m_textureManager.load("Assets/animate-alpha.png", "animate", m_pRenderer); //새로 추가된 애니메이션 불러오기
+        //m_textureManager.load("Assets/animate-alpha.png", "animate", m_pRenderer); //새로 추가된 애니메이션 불러오기
+
+        if (!TheTextureManager::Instance()->load("Assets/animate-alpha.png", "animate", m_pRenderer))
+        {
+          return false;
+        }
       }
       else
       {
@@ -74,11 +79,12 @@ void Game::render()
 {
   SDL_RenderClear(m_pRenderer);
 
-  m_textureManager.draw("animate", 0, 0, 128, 82, m_pRenderer);
-  m_textureManager.drawFrame("animate", 100, 100, 128, 82, 0, m_currentFrame, m_pRenderer);
-/*
-  SDL_RenderCopy(m_pRenderer, m_pTexture, NULL, NULL); //전체화면
-*/
+  //m_textureManager.draw("animate", 0, 0, 128, 82, m_pRenderer);
+  //m_textureManager.drawFrame("animate", 100, 100, 128, 82, 0, m_currentFrame, m_pRenderer);
+
+  TheTextureManager::Instance()->draw("animate", 0, 0, 128, 82, m_pRenderer);
+  TheTextureManager::Instance()->drawFrame("animate", 100, 100, 128, 82, 0, m_currentFrame, m_pRenderer);
+
   SDL_RenderPresent(m_pRenderer);
 }
 
