@@ -1,38 +1,22 @@
 #include "Game.h"
 
+//엔터 : 동적 이미지 활성화
+
 bool Game::init(const char* title, int xpos, int ypos, int height, int width, int flags)
 {
   if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
   {
     m_pWindow = SDL_CreateWindow(title, xpos, ypos, height, width, flags);
     
-    SDL_Surface* pTempSurface = SDL_LoadBMP("Assets/rider.bmp");
-
     if (m_pWindow != 0)
     {
       m_pRenderer = SDL_CreateRenderer(m_pWindow, -1, 0);
 
       if (m_pRenderer != 0)
       {
-        SDL_SetRenderDrawColor(m_pRenderer, 255, 255, 255, 255);
+        SDL_SetRenderDrawColor(m_pRenderer, 255, 100, 100, 255); //붉은색 배경 눈이 아파 조정
 
-        if (pTempSurface != 0)
-        {
-          m_pTexture = SDL_CreateTextureFromSurface(m_pRenderer, pTempSurface);
-          SDL_FreeSurface(pTempSurface);
-
-          SDL_QueryTexture(m_pTexture, NULL, NULL, &m_sourceRectangle.w, &m_sourceRectangle.h);
-
-          m_destinationRectangle.w = m_sourceRectangle.w;
-          m_destinationRectangle.h = m_sourceRectangle.h;
-
-          m_destinationRectangle.x = m_sourceRectangle.x = 0;
-          m_destinationRectangle.y = m_sourceRectangle.y = 0;
-        }
-        else
-        {
-          return false;
-        }
+        m_textureManager.load("Assets/animate-alpha.png", "animate", m_pRenderer); //새로 추가된 애니메이션 불러오기
       }
       else
       {
@@ -56,13 +40,45 @@ bool Game::init(const char* title, int xpos, int ypos, int height, int width, in
 
 void Game::update()
 {
+  if (ani == true)
+  {
+    m_currentFrame = ((SDL_GetTicks() / 50) % 6);
+  }
+
+  /*if (isJump == true) //점프
+  {
+    if (jump < 10)
+    {
+      jump++;
+      jumpSpeed++;
+      m_destinationRectangle.y -= jumpSpeed;
+      SDL_Delay(100);
+    }
+    else if (jump >= 10 && jump < 20)
+    {
+      jump++;
+      m_destinationRectangle.y += jumpSpeed;
+      jumpSpeed--;
+      SDL_Delay(100);
+    }
+    else
+    {
+      isJump = false;
+      jump = 0;
+    }
+  }*/
   
 }
 
 void Game::render()
 {
   SDL_RenderClear(m_pRenderer);
-  SDL_RenderCopy(m_pRenderer, m_pTexture, &m_sourceRectangle, &m_destinationRectangle);
+
+  m_textureManager.draw("animate", 0, 0, 128, 82, m_pRenderer);
+  m_textureManager.drawFrame("animate", 100, 100, 128, 82, 0, m_currentFrame, m_pRenderer);
+/*
+  SDL_RenderCopy(m_pRenderer, m_pTexture, NULL, NULL); //전체화면
+*/
   SDL_RenderPresent(m_pRenderer);
 }
 
@@ -88,20 +104,35 @@ void Game::handleEvents()
       case SDLK_ESCAPE: //esc입력 받았을 때 종료!
         m_bRunning = false;
         break;
-      case SDLK_LEFT: //왼쪽으로 이동
-        m_destinationRectangle.x -= 1;
+      /*case SDLK_LEFT: //왼쪽으로 이동
+        m_destinationRectangle.x -= 5;
         break;
       case SDLK_RIGHT: //오른쪽으로 이동
-        m_destinationRectangle.x += 1;
+        m_destinationRectangle.x += 5;
         break;
       case SDLK_UP: //위쪽으로 이동
-        m_destinationRectangle.y -= 1;
+        m_destinationRectangle.y -= 5;
         break;
       case SDLK_DOWN: //아래쪽으로 이동
-        m_destinationRectangle.y += 1;
+        m_destinationRectangle.y += 5;
         break;
-      }
+      case SDLK_SPACE: //점프
+        if (isJump == false)
+        {
+          isJump = true;
+        }   
+        break;*/
+      case SDLK_RETURN: //엔터 애니메이션 활성화 및 비활성화
+      if (ani == false)
+        {
+          ani = true;
+        }
+        else if (ani == true)
+        {
+          ani = false;
+        }
       break;
+      }
     default:
       break;
     }

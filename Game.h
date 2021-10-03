@@ -2,6 +2,9 @@
 #define __Game__
 
 #include "SDL.h"
+#include "TextureManager.h"
+#include "SDL_image.h"
+#include <iostream>
 
 class Game
 {
@@ -15,6 +18,12 @@ public:
   bool running();
   void handleEvents();
   void clean();
+  bool ani = false;
+  
+  bool isJump = false;
+  int jump = 0;
+  int jumpSpeed = 0;
+  int time = 0;
 
 private:
   SDL_Window* m_pWindow;
@@ -24,10 +33,13 @@ private:
   SDL_Texture* m_pTexture;
 
   //원본 사각형
-  SDL_Rect m_sourceRectangle;
+  //SDL_Rect m_sourceRectangle;
 
   //대상 사각형
-  SDL_Rect m_destinationRectangle;
+  //SDL_Rect m_destinationRectangle;
+
+  TextureManager m_textureManager;
+  int m_currentFrame;
 };
 
 #endif /*defined(__Game__)*/
