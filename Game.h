@@ -1,10 +1,13 @@
 #ifndef __Game__
 #define __Game__
 
+#include <iostream>
+#include <vector>
 #include "SDL.h"
 #include "TextureManager.h"
 #include "SDL_image.h"
-#include <iostream>
+#include "GameObject.h"
+#include "Player.h"
 
 class Game
 {
@@ -18,22 +21,20 @@ public:
   bool running();
   void handleEvents();
   void clean();
-  bool ani = false;
   
-  bool isJump = false;
-  int jump = 0;
-  int jumpSpeed = 0;
-  int time = 0;
 
 private:
   SDL_Window* m_pWindow;
   SDL_Renderer* m_pRenderer;
   bool m_bRunning;
+  bool ani = false;
 
-  SDL_Texture* m_pTexture;
-
-  //TextureManager m_textureManager;
   int m_currentFrame;
+
+  //GameObject m_go;
+  //Player m_player;
+
+  std::vector<GameObject*> m_gameObjects;
 };
 
 #endif /*defined(__Game__)*/
