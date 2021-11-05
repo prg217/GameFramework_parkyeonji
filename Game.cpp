@@ -78,36 +78,7 @@ bool Game::running()
 
 void Game::handleEvents()
 {
-  SDL_Event event;
-  
-  if (SDL_PollEvent(&event))
-  {
-    switch (event.type)
-    {
-    case SDL_QUIT:
-      m_bRunning = false;
-      break;
-    case SDL_KEYDOWN:
-      switch (event.key.keysym.sym)
-      {
-      case SDLK_ESCAPE: //esc입력 받았을 때 종료!
-        m_bRunning = false;
-        break;
-      /*case SDLK_RETURN: //엔터 애니메이션 활성화 및 비활성화
-        if (ani == false)
-        {
-          ani = true;
-        }
-        else if (ani == true)
-        {
-          ani = false;
-        }
-      break;*/
-      }
-    default:
-      break;
-    }
-  }
+  TheInputHandler::Instance()->update();
 }
 
 void Game::clean()

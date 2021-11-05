@@ -2,6 +2,7 @@
 #define __Player__
 
 #include "SDLGameObject.h"
+#include "InputHandler.h"
 
 class Player : public SDLGameObject
 {
@@ -10,6 +11,7 @@ public:
   virtual void draw();
   virtual void update();
   virtual void clean();
+  void handleInput();
 };
 
 #endif
