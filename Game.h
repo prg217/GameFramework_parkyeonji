@@ -35,6 +35,7 @@ private:
   Game() {}
   ~Game() {}
   static Game* s_pInstance;
+  int error_check = 0; //error_check값을 0으로 한 후 성공할때마다 1씩 더해줌! 그리고 다 통과되지 않으면 그 값이 그렇게 될 수 없으니 만약 몇 이하면 false로 만들어준다. 
 
   SDL_Window* m_pWindow;
   SDL_Renderer* m_pRenderer;

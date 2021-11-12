@@ -7,9 +7,6 @@
 
 class TextureManager
 {
-private:
-  TextureManager() {}
-
 public:
   ~TextureManager() {}
 
@@ -19,12 +16,6 @@ public:
 
   void drawFrame(std::string id, int x, int y, int width, int height, int currentRow, int currentFrame, SDL_Renderer* pRenderer, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
-private:
-  std::map<std::string, SDL_Texture*> m_textureMap;
-
-  static TextureManager* s_pInstance;
-
-public:
   static TextureManager* Instance()
   {
     if (s_pInstance == 0)
@@ -33,6 +24,12 @@ public:
     }
     return s_pInstance;
   }
+
+private:
+  TextureManager() {}
+  std::map<std::string, SDL_Texture*> m_textureMap;
+
+  static TextureManager* s_pInstance;
 };
 
 typedef TextureManager TheTextureManager;

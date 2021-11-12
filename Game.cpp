@@ -8,40 +8,44 @@ bool Game::init(const char* title, int xpos, int ypos, int height, int width, in
 {
   if (SDL_Init(SDL_INIT_EVERYTHING) >= 0)
   {
-    std::cout << "생성"; //출력이 안됨 + 전에는 엔터 누르면 엔터도 입력됐는데? 지금은 안돼
     m_pWindow = SDL_CreateWindow(title, xpos, ypos, height, width, flags);
-    //딜레이를 걸어봤을때는 적용됨
+    error_check++;
+    
     if (m_pWindow != 0)
     {
       m_pRenderer = SDL_CreateRenderer(m_pWindow, -1, 0);
+      error_check++;
 
       if (m_pRenderer != 0)
       {
-        SDL_SetRenderDrawColor(m_pRenderer, 255, 100, 100, 255); //붉은색 배경 눈이 아파 조정   
-        //SDL_Delay(10000);
+        SDL_SetRenderDrawColor(m_pRenderer, 255, 100, 100, 255); //붉은색 배경 눈이 아파 조정
+        error_check++;
       }
-      else
-      {
-        return false; //랜더러 생성 실패
-        std::cout << "랜";
-      }
-    }
-    else
-    {
-      return false; //윈도우 생성 실패1
-      std::cout << "윈";
     }
   }
-  else
+  
+  if (error_check < 3)
   {
-    return false;//SDL 초기화 실패
-    std::cout << "sdl";
+    return false;//실패
   }
 
   if (!TheTextureManager::Instance()->load("Assets/player_p.png", "animate", m_pRenderer))
   {
     return false;
   }
+
+  //배열로 만들기 그 다음 반복문
+  //배열로 만드는거를 첫번째, 두번째 인자를 배열로 줘야할듯!
+  //배열은 이차원 배열로?
+  /*
+  for (int i = 0; i < 배열사이즈.size; i++)
+  {
+    if (!TheTextureManager::Instance()->load(배열1, 배열2, m_pRenderer))
+    {
+      return false;
+    }
+  }
+  */
 
   m_gameObjects.push_back(new Player(new LoaderParams(100, 100, 64, 64, "animate")));
   m_gameObjects.push_back(new Enemy(new LoaderParams(100, 100, 64, 64, "animate")));
@@ -57,6 +61,7 @@ void Game::update()
   {
     m_gameObjects[i]->update();
   }
+  //업데이트 필요없는거는 따로 예외
 }
 
 void Game::render()
