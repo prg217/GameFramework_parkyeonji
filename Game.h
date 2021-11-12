@@ -39,9 +39,6 @@ private:
   SDL_Window* m_pWindow;
   SDL_Renderer* m_pRenderer;
   bool m_bRunning;
-  //bool ani = false;
-
-  //int m_currentFrame;
 
   std::vector<GameObject*> m_gameObjects;
 };

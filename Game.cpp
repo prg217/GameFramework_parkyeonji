@@ -85,5 +85,6 @@ void Game::clean()
 {
   SDL_DestroyWindow(m_pWindow);
   SDL_DestroyRenderer(m_pRenderer);
+  TheInputHandler::Instance()->clean();
   SDL_Quit();
 }
